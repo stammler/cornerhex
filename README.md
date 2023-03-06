@@ -18,8 +18,8 @@
 
 For the usage of `cornerhex` please have a look at its [documentation](https://cornerhex.rtfd.io/).
 
-1. [Quickstart]()
-2. [Customizations]()
+1. [Quickstart](https://cornerhex.readthedocs.io/en/latest/1_quickstart.html)
+2. [Customizations](https://cornerhex.readthedocs.io/en/latest/2_customizations.html)
 
 ## Bud report / feature request
 
