@@ -131,7 +131,7 @@ def cornerplot(
         # Converting to 1d quantiles
         quants = []
         for s in sigma_levels:
-            q = sigma_to_quantile(s)*100.
+            q = sigma_to_quantile(s)
             quants.extend([50.-q, 50.+q])
         quants = np.array(quants)
         quants.sort()
@@ -292,7 +292,7 @@ def sigma_to_quantile(sig: float) -> float:
     # --------
     # q : float
     #     Quantile
-    return _gaussian_primitive(-sig, 0., 1.)
+    return _gaussian_primitive(-sig, 0., 1.)*100
 
 
 def _gaussian_primitive(x: float, mu: float, sig: float) -> float:
