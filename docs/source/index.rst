@@ -1,11 +1,14 @@
 ``cornerhex`` Documentation
-=========================================
+===========================
 
 | ``cornerhex`` is a package to visualize multidimensional data in matrix corner plots, for example the results of Markov Chain Monte Carlo (MCMC) methods.
 | Instead of 2d histograms or scatter plots it uses ``matplotlib.pyplot.hexbin``. ``cornerhex`` can be easily costumized with different color schemes.
 
 .. image:: _static/cornerhex.jpg
   :alt: Cornerhex
+
+Installation
+------------
 
 | To install ``cornerhex`` simply type
 | ``pip install cornerhex``
