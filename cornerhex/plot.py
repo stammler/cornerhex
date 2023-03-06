@@ -30,67 +30,69 @@ def cornerplot(
     title_quantiles=None,
     width=3.
 ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
-    # Function creates hexbin corner plot matrix to visualize multidimensional data.
-    #
-    # Parameters:
-    # -----------
-    # data : (N_sample, N_dims) array-like
-    #     Two-dimensional data array to be visualized. First dimension are the samples,
-    #     second dimension the features.
-    # cmap : str or matplotlib.colors.Colormap, optional, default: "Blues"
-    #     Either a string of a valid matplotlib colormap or a custom Colormap object
-    #     to be used in the plot.
-    # correlation_textcolor : str, optional, default: None
-    #     Color of correlation text.
-    #     Defaults to a value from the chosen colormap.
-    # dpi : float, optional, default: 100.
-    #     Dots per inch of the figure
-    # hex_gridsize : int, optional, default: 30
-    #     Number of hexagons ins x-direction
-    # highlight : (N_dims) array-like, optional, default: None
-    #     If not None, array of values to be highlighted in the plot. Typically
-    #     the truth values.
-    # highlight_linecolor : str or tuple, optional, default: None
-    #     If not None linecolor of the highlighted values.
-    #     Defaults to a value from the chosen colormap.
-    # highlight_markercolor : str or tuple, optional, default: None
-    #     If not None markercolor of the highlighted values.
-    #     Defaults to a value from the chosen colormap.
-    # hist_backgroundcolor : str or tuple, optional, default: None
-    #     If not None background color of the axes object.
-    #     Defaults to a value from the chosen colormap.
-    # hist_bins : int, optinal, default: 20
-    #     Number of bins in histograms.
-    # hist_edgecolor : str or tuple, optional, default: None
-    #     If not None edgecolor of the histgram bars.
-    #     Defaults to a value from the chosen colormap.
-    # hist_facecolor : str or tuple, optional, default: None
-    #     If not None face of the histgram bars.
-    #     Defaults to a value from the chosen colormap.
-    # labels : (N_dims) list, optional, default: None
-    #     If not None list of strings with the feature names
-    #     to be used as axis labels or in the axis titles.
-    # show_correlations : boolean, optional, default: False
-    #     If True show Pearson's correlation coeffiction in each tile.
-    # sigma_levels : array_like, optional, default: None
-    #     If not None contour levels to be plotted in
-    #     units of the standard deviation.
-    # sigma_linecolor : str or tuple, optional, default: None
-    #     If not None linecolor of the sigma contour lines.
-    #     Defaults to a value from the chosen colormap.
-    # sigma_smooth : float, optional, default: 3.
-    #     Smoothing factor for hexbin plot to smooth
-    #     out contour lines.
-    # title_quantiles : (1,) or (3,) array-like, optional, default: None
-    #     One-dimensional array of either size one or size three with
-    #     the feature quantiles to be plotted as histogram titles.
-    # width : float, optional, default: 3.
-    #     Width of a single tile of the corner plot.
-    #
-    # Returns:
-    # --------
-    # (fig, ax) : tuple
-    #     Tuple containing the figure and axes objects.
+    """
+    Function creates hexbin corner plot matrix to visualize multidimensional data.
+
+    Parameters:
+    -----------
+    data : (N_sample, N_dims) array-like
+        Two-dimensional data array to be visualized. First dimension are the samples,
+        second dimension the features.
+    cmap : str or matplotlib.colors.Colormap, optional, default: "Blues"
+        Either a string of a valid matplotlib colormap or a custom Colormap object
+        to be used in the plot.
+    correlation_textcolor : str, optional, default: None
+        Color of correlation text.
+        Defaults to a value from the chosen colormap.
+    dpi : float, optional, default: 100.
+        Dots per inch of the figure
+    hex_gridsize : int, optional, default: 30
+        Number of hexagons ins x-direction
+    highlight : (N_dims) array-like, optional, default: None
+        If not None, array of values to be highlighted in the plot. Typically
+        the truth values.
+    highlight_linecolor : str or tuple, optional, default: None
+        If not None linecolor of the highlighted values.
+        Defaults to a value from the chosen colormap.
+    highlight_markercolor : str or tuple, optional, default: None
+        If not None markercolor of the highlighted values.
+        Defaults to a value from the chosen colormap.
+    hist_backgroundcolor : str or tuple, optional, default: None
+        If not None background color of the axes object.
+        Defaults to a value from the chosen colormap.
+    hist_bins : int, optinal, default: 20
+        Number of bins in histograms.
+    hist_edgecolor : str or tuple, optional, default: None
+        If not None edgecolor of the histgram bars.
+        Defaults to a value from the chosen colormap.
+    hist_facecolor : str or tuple, optional, default: None
+        If not None face of the histgram bars.
+        Defaults to a value from the chosen colormap.
+    labels : (N_dims) list, optional, default: None
+        If not None list of strings with the feature names
+        to be used as axis labels or in the axis titles.
+    show_correlations : boolean, optional, default: False
+        If True show Pearson's correlation coeffiction in each tile.
+    sigma_levels : array_like, optional, default: None
+        If not None contour levels to be plotted in
+        units of the standard deviation.
+    sigma_linecolor : str or tuple, optional, default: None
+        If not None linecolor of the sigma contour lines.
+        Defaults to a value from the chosen colormap.
+    sigma_smooth : float, optional, default: 3.
+        Smoothing factor for hexbin plot to smooth
+        out contour lines.
+    title_quantiles : (1,) or (3,) array-like, optional, default: None
+        One-dimensional array of either size one or size three with
+        the feature quantiles to be plotted as histogram titles.
+    width : float, optional, default: 3.
+        Width of a single tile of the corner plot.
+
+    Returns:
+    --------
+    (fig, ax) : tuple
+        Tuple containing the figure and axes objects.
+    """
 
     # Number of dimensions
     _, Nd = data.shape
@@ -282,35 +284,40 @@ def cornerplot(
 
 
 def sigma_to_quantile(sig: float) -> float:
-    # Function converts standard deviation of
-    # a normal distribution to quantile.
-    #
-    # Parameters:
-    # -----------
-    # sig : float
-    #      Standard deviation
-    #
-    # Returns:
-    # --------
-    # q : float
-    #     Quantile
+    """
+    Function converts standard deviation of
+    a normal distribution to quantile.
+
+    Parameters:
+    -----------
+    sig : float
+        Standard deviation
+
+    Returns:
+    --------
+    q : float
+        Quantile
+    """
     return _gaussian_primitive(-sig, 0., 1.)*100
 
 
 def _gaussian_primitive(x: float, mu: float, sig: float) -> float:
-    # Function returns the primitive of the normal distribution
-    #
-    # Parameters:
-    # -----------
-    # x : float, array-like
-    #     Evaluation coordinate
-    # mu : float
-    #     Mean of normal distribution
-    # sig : float
-    #     Standard deviation of normal distribution
-    #
-    # Returns:
-    # --------
-    # F(x) : float, array-like
-    #     Primitive at x
+    """
+    Function returns the primitive of the normal distribution
+
+    Parameters:
+    -----------
+    x : float, array-like
+        Evaluation coordinate
+    mu : float
+        Mean of normal distribution
+    sig : float
+        Standard deviation of normal distribution
+
+    Returns:
+    --------
+    F(x) : float, array-like
+        Primitive at x
+    """
+
     return -0.5*erf((x-mu)/(np.sqrt(2.)*sig))
