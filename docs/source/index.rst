@@ -23,7 +23,7 @@ Installation
    2_customizations
    api
 
-| ``cornerhex`` is free to use. Please acknowledge ``cornerhex`` if using it for a publication.
+| ``cornerhex`` is free to use. Please acknowledge the ``cornerhex`` repository if using it for publications.
 
 Indices and tables
 ==================
