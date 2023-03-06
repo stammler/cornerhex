@@ -1,3 +1,4 @@
+import matplotlib
 from matplotlib import colormaps
 from matplotlib.colors import Colormap
 import matplotlib.pyplot as plt
@@ -5,6 +6,7 @@ import numpy as np
 from scipy.interpolate import griddata
 from scipy.ndimage import gaussian_filter
 from scipy.special import erf
+from typing import Tuple
 
 
 def cornerplot(
@@ -27,7 +29,7 @@ def cornerplot(
     sigma_smooth=3.,
     title_quantiles=None,
     width=3.
-) -> tuple[plt.Figure, plt.Axes]:
+) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     # Function creates hexbin corner plot matrix to visualize multidimensional data.
     #
     # Parameters:
