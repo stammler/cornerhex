@@ -18,13 +18,9 @@
 
 For the usage of `cornerhex` please have a look at its [documentation](https://cornerhex.rtfd.io/).
 
-1. [Quickstart](https://cornerhex.readthedocs.io/en/latest/1_quickstart.html)
-2. [Customizations](https://cornerhex.readthedocs.io/en/latest/2_customizations.html)
-
-## Bug report / feature request
-
-For bug reports or feature requests please open a new issue.
-Pull requests are open for any improvement or extension to `cornerhex`.
+* [1. Quickstart](https://cornerhex.readthedocs.io/en/latest/1_quickstart.html)
+* [2. Customizations](https://cornerhex.readthedocs.io/en/latest/2_customizations.html)
+* [A. Contributing / Bug reports / Features requests](https://cornerhex.readthedocs.io/en/latest/A_contrib_bug_feature.html)
 
 ## Acknowledgements
 
