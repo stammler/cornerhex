@@ -280,6 +280,8 @@ def cornerplot(
 
     fig.tight_layout()
 
+    plt.show()
+
     return fig, ax
 
 
