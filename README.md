@@ -21,7 +21,7 @@ For the usage of `cornerhex` please have a look at its [documentation](https://c
 1. [Quickstart](https://cornerhex.readthedocs.io/en/latest/1_quickstart.html)
 2. [Customizations](https://cornerhex.readthedocs.io/en/latest/2_customizations.html)
 
-## Bud report / feature request
+## Bug report / feature request
 
 For bug reports or feature requests please open a new issue.
 Pull requests are open for any improvement or extension to `cornerhex`.

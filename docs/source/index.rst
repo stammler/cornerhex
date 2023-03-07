@@ -21,6 +21,7 @@ Installation
 
    1_quickstart
    2_customizations
+   A_contrib_bug_feature
    api
 
 | ``cornerhex`` is free to use. Please acknowledge the ``cornerhex`` repository if using it for publications.
