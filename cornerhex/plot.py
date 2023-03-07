@@ -4,6 +4,7 @@ from matplotlib.colors import Colormap
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import griddata
+from scipy.interpolate import RegularGridInterpolator
 from scipy.ndimage import gaussian_filter
 from scipy.special import erf
 from typing import Tuple
@@ -23,6 +24,9 @@ def cornerplot(
     hist_edgecolor=None,
     hist_facecolor=None,
     labels=None,
+    scatter_alpha=0.5,
+    scatter_markercolor=None,
+    scatter_outside_sigma=None,
     show_correlations=False,
     sigma_levels=None,
     sigma_linecolor=None,
@@ -71,6 +75,14 @@ def cornerplot(
     labels : (N_dims) list, optional, default: None
         If not None list of strings with the feature names
         to be used as axis labels or in the axis titles.
+    scatter_alpha : float, optional, default: 0.5
+        Alpha transparency value of scatter plot
+    scatter_markercolor : str, optional, default: None
+        If not None markercolor of scatter plot markers.
+        Defaults to a value from the chosen colormap.
+    scatter_outside_sigma : float, optional, default: None
+        If not None displays scatter plot of individual data
+        points outside of given sigma contour.
     show_correlations : boolean, optional, default: False
         If True show Pearson's correlation coeffiction in each tile.
     sigma_levels : array_like, optional, default: None
@@ -115,6 +127,8 @@ def cornerplot(
         else cm(0.)
     hist_ec = hist_edgecolor if hist_edgecolor is not None else cm(1.)
     hist_fc = hist_facecolor if hist_facecolor is not None else cm(0.5)
+    scat_mc = scatter_markercolor if scatter_markercolor is not None else cm(
+        0.5)
 
     # Validate labels
     set_labels = False if labels is None else True
@@ -141,6 +155,10 @@ def cornerplot(
         quants.sort()
         # Converting to 2d sigma levels
         levels2d = 1. - np.exp(-0.5*np.array(sigma_levels)**2)
+
+    # Threshold for scatter plot
+    if scatter_outside_sigma is not None:
+        scatter_thr = 1. - np.exp(-0.5*np.array(scatter_outside_sigma)**2)
 
     # Validate title quantiles
     if title_quantiles is not None:
@@ -200,8 +218,8 @@ def cornerplot(
             h = ax[ix, iy].hexbin(data[:, iy], data[:, ix], cmap=cm,
                                   gridsize=hex_gridsize, linewidths=0.5, edgecolor=cm(0))
 
-            # Contour plot for sigma levels
-            if sigma_levels is not None:
+            # Data gridding if sigma_levels given or scatter plot required
+            if sigma_levels is not None or scatter_outside_sigma is not None:
 
                 # Get positions and values from hexbin plots
                 xy = h.get_offsets()
@@ -221,12 +239,15 @@ def cornerplot(
                 z_ordered = z_flattened[z_flattened.argsort()[::-1]]
                 cumsum = z_ordered.cumsum()
                 cumsum /= cumsum[-1]
+
+            # Contourplot
+            if sigma_levels is not None:
+                # Compute levels
                 levels = np.empty(len(levels2d))
                 for i, s in enumerate(levels2d):
                     levels[i] = z_ordered[np.abs(cumsum-s).argmin()]
                 levels.sort()
-
-                # Contourplot
+                # Draw plot
                 ax[ix, iy].contour(
                     grid_x, grid_y, zi,
                     levels=levels,
@@ -234,6 +255,26 @@ def cornerplot(
                     linewidths=1.,
                     linestyles="--"
                 )
+
+            # Scatter plot
+            if scatter_outside_sigma is not None:
+                # Compute threshold value
+                scat_thr = z_ordered[np.abs(cumsum-scatter_thr).argmin()]
+                # Nearest neighbor search
+                NNDI = RegularGridInterpolator(
+                    (grid_x[:, 0], grid_y[0, :]),
+                    zi,
+                    method="linear",
+                    bounds_error=False,
+                    fill_value=0.
+                )
+                mask = NNDI((data[:, iy], data[:, ix])) < scat_thr
+                ax[ix, iy].scatter(
+                    data[mask, iy], data[mask, ix],
+                    marker=".",
+                    s=0.5,
+                    alpha=scatter_alpha,
+                    c=[scat_mc])
 
             # Correlation coefficient
             if show_correlations:
