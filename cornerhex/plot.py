@@ -24,6 +24,7 @@ def cornerplot(
     hist_edgecolor=None,
     hist_facecolor=None,
     labels=None,
+    limits=None,
     scatter_alpha=0.5,
     scatter_markercolor=None,
     scatter_outside_sigma=None,
@@ -75,6 +76,10 @@ def cornerplot(
     labels : (N_dims) list, optional, default: None
         If not None list of strings with the feature names
         to be used as axis labels or in the axis titles.
+    limits : (2,) or (N_dims, 2) array-like, optional, default: None
+        If not None limits is the axis limits of the
+        features giving the minimum and maximum values
+        of each feature
     scatter_alpha : float, optional, default: 0.5
         Alpha transparency value of scatter plot
     scatter_markercolor : str, optional, default: None
@@ -174,6 +179,17 @@ def cornerplot(
         cor_tc = correlation_textcolor if correlation_textcolor is not None else cm(
             1.)
 
+    # Setting limits
+    lim = np.empty((Nd, 2))
+    if limits is not None:
+        l = np.array(limits)
+        if l.shape not in [(2,), (Nd, 2)]:
+            raise ValueError("'limits' does not have the correct shape.")
+        lim[...] = l[None, :] if len(l.shape) == 1 else l
+    else:
+        lim[:, 0] = data.min(axis=0)
+        lim[:, 1] = data.max(axis=0)
+
     fig, ax = plt.subplots(nrows=Nd, ncols=Nd, figsize=(
         Nd*width, Nd*width), dpi=dpi)
 
@@ -215,8 +231,14 @@ def cornerplot(
                 ax[ix, iy].set_title(msg, fontsize="x-large")
         else:
             # Hexbin plots
-            h = ax[ix, iy].hexbin(data[:, iy], data[:, ix], cmap=cm,
-                                  gridsize=hex_gridsize, linewidths=0.5, edgecolor=cm(0))
+            h = ax[ix, iy].hexbin(
+                data[:, iy], data[:, ix],
+                cmap=cm,
+                gridsize=hex_gridsize,
+                linewidths=0.5,
+                edgecolor=cm(0),
+                extent=(lim[iy, 0], lim[iy, 1], lim[ix, 0], lim[ix, 1])
+            )
 
             # Data gridding if sigma_levels given or scatter plot required
             if sigma_levels is not None or scatter_outside_sigma is not None:
@@ -298,8 +320,13 @@ def cornerplot(
                     markeredgecolor=hl_lc
                 )
 
-            ax[ix, iy].set_xlim(data[:, iy].min(), data[:, iy].max())
-            ax[ix, iy].set_ylim(data[:, ix].min(), data[:, ix].max())
+        # Setting limits
+        if ix == Nd-1:
+            #ax[ix, iy].set_xlim(data[:, iy].min(), data[:, iy].max())
+            #ax[ix, iy].set_ylim(data[:, ix].min(), data[:, ix].max())
+            ax[ix, iy].set_xlim(lim[iy, 0], lim[iy, 1])
+        if ix > 0 and iy == 0:
+            ax[ix, iy].set_ylim(lim[ix, 0], lim[ix, 1])
 
         # Set y-labels
         if ix > 0 and iy == 0:
