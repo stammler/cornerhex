@@ -1,0 +1,50 @@
+[build-system]
+build-backend = "mesonpy"
+requires = ["meson-python", "numpy"]
+
+[project]
+name = "cornerhex"
+description = "Package to visualize multi-dimensional data in hexbin pairwise plots."
+version = "0.0.4"
+
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scipy"
+]
+
+authors = [
+    { name = "Sebastian.stammler", email = "sebastian.stammler@gmail.com" },
+]
+maintainers = [
+    { name = "Sebastian Stammler", email = "sebastian.stammler@gmail.com" },
+]
+
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE"}
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Education",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Visualization"
+]
+
+[project.urls]
+Homepage = "https://cornerhex.readthedocs.io/"
+Repository = "https://github.com/stammler/cornerhex/"

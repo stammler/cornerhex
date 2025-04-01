@@ -1,8 +1,9 @@
 from cornerhex.plot import cornerplot
+from importlib import metadata
 from cornerhex.plot import sigma_to_quantile
 
 __name__ = "cornerhex"
-__version__ = "0.3.0"
+__version__ = metadata.version("cornerhex")
 
 __all__ = [
     "cornerplot",
