@@ -14,7 +14,6 @@ def cornerplot(
     data: np.ndarray,
     cmap="Blues",
     correlation_textcolor=None,
-    dpi=100.,
     hex_gridsize=30,
     highlight=None,
     highlight_linecolor=None,
@@ -31,9 +30,9 @@ def cornerplot(
     show_correlations=False,
     sigma_levels=None,
     sigma_linecolor=None,
-    sigma_smooth=3.,
+    sigma_smooth=3.0,
     title_quantiles=None,
-    width=3.
+    width=3.0,
 ) -> Tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     """
     Function creates hexbin corner plot matrix to visualize multidimensional data.
@@ -49,8 +48,6 @@ def cornerplot(
     correlation_textcolor : str, optional, default: None
         Color of correlation text.
         Defaults to a value from the chosen colormap.
-    dpi : float, optional, default: 100.
-        Dots per inch of the figure
     hex_gridsize : int, optional, default: 30
         Number of hexagons ins x-direction
     highlight : (N_dims) array-like, optional, default: None
@@ -71,7 +68,7 @@ def cornerplot(
         If not None edgecolor of the histgram bars.
         Defaults to a value from the chosen colormap.
     hist_facecolor : str or tuple, optional, default: None
-        If not None face of the histgram bars.
+        If not None facecolor of the histgram bars.
         Defaults to a value from the chosen colormap.
     labels : (N_dims) list, optional, default: None
         If not None list of strings with the feature names
@@ -190,8 +187,7 @@ def cornerplot(
         lim[:, 0] = data.min(axis=0)
         lim[:, 1] = data.max(axis=0)
 
-    fig, ax = plt.subplots(nrows=Nd, ncols=Nd, figsize=(
-        Nd*width, Nd*width), dpi=dpi)
+    fig, ax = plt.subplots(nrows=Nd, ncols=Nd, figsize=(Nd * width, Nd * width))
 
     for i in range(Nd**2):
         # x and y coordinates of subplots
@@ -203,8 +199,13 @@ def cornerplot(
         elif ix == iy:
             # Histograms
             ax[ix, iy].set_facecolor(hist_bc)
-            ax[ix, iy].hist(data[:, ix], bins=hist_bins, color=cm(1.),
-                            facecolor=hist_fc, edgecolor=hist_ec)
+            ax[ix, iy].hist(
+                data[:, ix],
+                bins=hist_bins,
+                color=cm(1.0),
+                facecolor=[hist_fc],
+                edgecolor=[hist_ec],
+            )
             if sigma_levels is not None:
                 perc = np.percentile(data[:, ix], quants)
                 for p in perc:
@@ -321,9 +322,7 @@ def cornerplot(
                 )
 
         # Setting limits
-        if ix == Nd-1:
-            #ax[ix, iy].set_xlim(data[:, iy].min(), data[:, iy].max())
-            #ax[ix, iy].set_ylim(data[:, ix].min(), data[:, ix].max())
+        if ix == Nd - 1:
             ax[ix, iy].set_xlim(lim[iy, 0], lim[iy, 1])
         if ix > 0 and iy == 0:
             ax[ix, iy].set_ylim(lim[ix, 0], lim[ix, 1])
